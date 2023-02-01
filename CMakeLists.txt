@@ -9,6 +9,13 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 
+
+find_package(std_msgs REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(rclpy REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+
 ### NOTE if you want to add python libs add them here
 ament_python_install_package(python_lib)
 ### NOTE
@@ -26,6 +33,16 @@ target_include_directories(node PUBLIC
 ### NOTE
   $<INSTALL_INTERFACE:include>)
 target_compile_features(node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+
+### NOTE add dependencies to the cpp target
+ament_target_dependencies(node
+  "rclcpp"
+  "std_msgs"
+  "nav_msgs"
+  "geometry_msgs"
+)
+### NOTE
+
 
 install(TARGETS node
   DESTINATION lib/${PROJECT_NAME})
